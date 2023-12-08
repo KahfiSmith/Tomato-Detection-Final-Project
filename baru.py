@@ -8,7 +8,6 @@ from sklearn.cluster import KMeans
 from collections import Counter
 from sklearn.impute import SimpleImputer
 import mysql.connector
-import time
 
 def insert_into_database(kelas_pred):
     # Ganti dengan informasi koneksi ke database MySQL Anda
@@ -45,11 +44,12 @@ def insert_into_database(kelas_pred):
         if conn.is_connected():
             cursor.close()
             conn.close()
+            print("Koneksi ditutup.")
 
 # PATH PENYIMPANAN
 path_tomat = 'data_set_tomat/'
 file = 'hasil_kematangan_tomat.xlsx'
-file_name = path_tomat + 'tomatmerah5.jpg'
+file_name = path_tomat + 'tomathijau3.jpg'
 dataset = pd.read_excel(file)
 
 fitur = dataset.iloc[:, 1:4].values
@@ -95,17 +95,29 @@ imputer = SimpleImputer(strategy='mean')
 fitur = imputer.fit_transform(fitur)
 tes_fitur = imputer.transform(tes_fitur)
 
-while True:
+# Proses pemodelan setelah melakukan imputasi
+classifier = KNeighborsClassifier(n_neighbors=13)
+classifier.fit(fitur, kelas)
 
-    # Proses pemodelan setelah melakukan imputasi
-    classifier = KNeighborsClassifier(n_neighbors=13)
-    classifier.fit(fitur, kelas)
+# Melakukan prediksi kelas
+kelas_pred = classifier.predict(tes_fitur)
+print("Kelas Prediksi:", kelas_pred[0])
 
-    # Melakukan prediksi kelas
-    kelas_pred = classifier.predict(tes_fitur)
-    print("Kelas Prediksi:", kelas_pred[0])
+# Menampilkan gambar yang telah diproses
+plt.figure(figsize=(8, 4))
 
-    # Insert kematangan tomat ke dalam database
-    insert_into_database(kelas_pred[0])
+# Menampilkan gambar asli yang diproses
+plt.subplot(1, 2, 1)
+plt.imshow(cv2.cvtColor(cropped, cv2.COLOR_BGR2RGB))
+plt.title('Processed Image')
+plt.axis('off')
 
-    time.sleep(10)
+# Menampilkan nilai kelas_pred
+plt.subplot(1, 2, 2)
+plt.text(0.5, 0.5, f'Deteksi Tomat : {kelas_pred[0]}', ha='center', va='center', fontsize=12)
+plt.axis('off')
+
+# Insert kematangan tomat ke dalam database
+insert_into_database(kelas_pred[0])
+
+plt.show()

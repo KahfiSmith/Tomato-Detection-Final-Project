@@ -34,25 +34,19 @@ if ($uploadOk == 0) {
         $dbname = "tomatify";
 
         $conn = new mysqli($servername, $username, $password, $dbname);
-
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        // Ensure temperature data is properly received
         $berat = isset($_POST["berat"]) ? mysqli_real_escape_string($conn, $_POST["berat"]) : "";
-        // $humidity = isset($_POST["kelembaban"]) ? mysqli_real_escape_string($conn, $_POST["kelembaban"]) : "";
-
-        // Debugging: Print SQL query
         $sql = "INSERT INTO berat_tomat (berat) VALUES ('$berat')";
         echo "SQL Query: " . $sql;
 
-        // Insert data into database using prepared statement
         $stmt = $conn->prepare("INSERT INTO berat_tomat (berat) VALUES (?)");
         $stmt->bind_param("s", $berat);
 
         if ($stmt->execute()) {
-            echo "Data berhasil dimasukkan ke database. Temperature: " . $berat ;
+            echo "Data berhasil dimasukkan ke database. Berat: " . $berat ;
         } else {
             echo "Error: " . $stmt->error;
         }
