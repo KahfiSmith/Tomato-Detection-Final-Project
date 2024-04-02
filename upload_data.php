@@ -2,20 +2,20 @@
 
 var_dump($_POST);
 
-// $target_dir = "captured_images/"; // folder untuk menyimpan gambar
-// $target_filename = "Photo.jpg"; // set the constant filename without an extension
-// $target_file = $target_dir . $target_filename;
-// $uploadOk = 1;
-// $imageFileType = strtolower(pathinfo($_FILES["imageFile"]["name"], PATHINFO_EXTENSION));
-// $file_name = pathinfo($_FILES["imageFile"]["name"], PATHINFO_BASENAME);
-
-$target_dir = "captured_images/";
-$date = new DateTime();
-$date_string = $date->format('H-i-s Y-m-d');
-$target_file = $target_dir . $date_string . basename($_FILES["imageFile"]["name"]);
+$target_dir = "captured_images/"; // folder untuk menyimpan gambar
+$target_filename = "tomat.jpg"; // set the constant filename without an extension
+$target_file = $target_dir . $target_filename;
 $uploadOk = 1;
-$imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-$file_name = pathinfo($target_file, PATHINFO_BASENAME);
+$imageFileType = strtolower(pathinfo($_FILES["imageFile"]["name"], PATHINFO_EXTENSION));
+$file_name = pathinfo($_FILES["imageFile"]["name"], PATHINFO_BASENAME);
+
+// $target_dir = "captured_images/";
+// $date = new DateTime();
+// $date_string = $date->format('H-i-s Y-m-d');
+// $target_file = $target_dir . $date_string . basename($_FILES["imageFile"]["name"]);
+// $uploadOk = 1;
+// $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+// $file_name = pathinfo($target_file, PATHINFO_BASENAME);
 
 // Debugging: Print entire POST data
 var_dump($_POST);

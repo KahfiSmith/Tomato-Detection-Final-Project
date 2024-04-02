@@ -47,9 +47,9 @@ def insert_into_database(kelas_pred):
             conn.close()
 
 # PATH PENYIMPANAN
-path_tomat = 'data_set_tomat/'
+path_tomat = 'captured_images/'
 file = 'hasil_kematangan_tomat.xlsx'
-file_name = path_tomat + 'tomatmerah5.jpg'
+file_name = path_tomat + 'tomat.jpg'
 dataset = pd.read_excel(file)
 
 fitur = dataset.iloc[:, 1:4].values
